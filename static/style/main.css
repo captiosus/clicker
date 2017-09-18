@@ -1,0 +1,122 @@
+body {
+  max-height: 100vh;
+  overflow-y: hidden;
+}
+
+#click:hover {
+  cursor: pointer;
+}
+
+#click:active {
+  outline: none;
+  box-shadow: none;
+}
+
+#click:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.container-fluid {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.form-space {
+  margin: 50px 0 0 0;
+}
+
+.list-padding {
+  padding: 0;
+}
+
+.click-list {
+  height: 100vh;
+  max-height: 100vh;
+  overflow-y: scroll;
+  border-right: 1px solid rgba(0,0,0,.125);
+  border-left: 1px solid rgba(0,0,0,.125);
+}
+
+.click-list li:first-child {
+  border-top: 0;
+  border-radius: 0;
+}
+
+.click-list li:last-child {
+  border-radius: 0;
+}
+
+.click-list li {
+  border-left: 0;
+  border-right: 0;
+}
+
+.click-list-hover li:hover {
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+}
+
+.error {
+  color: red;
+  text-align: center;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.close:hover {
+  cursor: pointer;
+}
+
+.disable {
+  cursor: default;
+  background-color: #868e96;
+  border-color: #868e96;
+}
+
+.disable:hover {
+  background-color: #868e96;
+  border-color: #868e96;
+}
+
+.disable:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.skill-btn {
+  width: 150px;
+}
+
+.game-screen {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 56px;
+}
+
+.game-footer {
+  padding: 20px;
+  margin-top: auto;
+}
+
+.game-status {
+  padding: 10px;
+}
+
+.game-click {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+#click {
+  height: 250px;
+  width: 250px;
+  font-size: 40px;
+}
+
+#score {
+  font-size: 20px;
+}
