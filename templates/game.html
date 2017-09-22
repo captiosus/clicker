@@ -5,44 +5,41 @@
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-3 list-padding">
-      <ul id="upgrade" class="click-list-hover click-list list-group">
-      </ul>
+<div class="row game-container">
+  <div class="col-sm-3 click-list-container">
+    <ul id="upgrade" class="click-list-hover click-list list-group">
+    </ul>
+  </div>
+  <div class="col-sm-6 game-screen">
+    <div class="row justify-content-center game-status">
+      <div id="score">0</div>
     </div>
-    <div class="col-sm-6 game-screen">
-      <div class="row justify-content-center game-status">
-        <div id="score">0</div>
-      </div>
-      <div class="row justify-content-center game-click">
-        <button type="button" id="click" class="btn btn-primary">
-          Click
+    <div class="row justify-content-center game-click">
+      <button type="button" id="click" class="btn btn-primary">
+        Click
+      </button>
+    </div>
+    <div class="row justify-content-center game-footer">
+      <div class="col-sm-auto">
+        <button type="button" class="btn btn-success skill-btn" data-toggle="modal" data-target="#lottery-modal">
+          Lottery
         </button>
       </div>
-      <br>
-      <div class="row justify-content-center game-footer">
-        <div class="col-sm-auto">
-          <button type="button" class="btn btn-primary skill-btn" data-toggle="modal" data-target="#lottery-modal">
-            Lottery
-          </button>
-        </div>
-        <div class="col-sm-auto">
-          <button type="button" id="achievements" class="btn btn-primary skill-btn" data-toggle="modal" data-target="#achievements-modal">
-            Achievements
-          </button>
-        </div>
-        <div class="col-sm-auto">
-          <button type="button" id="frenzy" class="btn btn-primary skill-btn">
-            Frenzy
-          </button>
-        </div>
+      <div class="col-sm-auto">
+        <button type="button" id="achievements" class="btn btn-info skill-btn" data-toggle="modal" data-target="#achievements-modal">
+          Achievements
+        </button>
+      </div>
+      <div class="col-sm-auto">
+        <button type="button" id="frenzy" class="btn btn-danger skill-btn">
+          Frenzy
+        </button>
       </div>
     </div>
-    <div class="col-sm-3 list-padding">
-      <ul id="clickers" class="click-list list-group">
-      </ul>
-    </div>
+  </div>
+  <div class="col-sm-3 click-list-container">
+    <ul id="clickers" class="click-list list-group">
+    </ul>
   </div>
 </div>
 <div class="modal fade" id="lottery-modal" tabindex="-1" role="dialog" aria-labelledby="lottery-modal" aria-hidden="true">

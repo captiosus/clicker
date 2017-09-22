@@ -1,8 +1,3 @@
-body {
-  max-height: 100vh;
-  overflow-y: hidden;
-}
-
 #click:hover {
   cursor: pointer;
 }
@@ -17,25 +12,20 @@ body {
   box-shadow: none;
 }
 
-.container-fluid {
-  margin-right: auto;
-  margin-left: auto;
-}
-
 .form-space {
   margin: 50px 0 0 0;
 }
 
-.list-padding {
+.click-list-container {
   padding: 0;
+  display: flex;
 }
 
 .click-list {
-  height: 100vh;
-  max-height: 100vh;
   overflow-y: scroll;
   border-right: 1px solid rgba(0,0,0,.125);
   border-left: 1px solid rgba(0,0,0,.125);
+  flex-grow: 1;
 }
 
 .click-list li:first-child {
@@ -94,11 +84,10 @@ body {
 .game-screen {
   display: flex;
   flex-direction: column;
-  padding-bottom: 56px;
 }
 
 .game-footer {
-  padding: 20px;
+  padding-bottom: 50px;
   margin-top: auto;
 }
 
@@ -108,15 +97,28 @@ body {
 
 .game-click {
   flex-grow: 1;
-  padding: 20px;
+  padding-top: 100px;
 }
 
 #click {
   height: 250px;
   width: 250px;
   font-size: 40px;
+  border-radius: 250px;
 }
 
 #score {
   font-size: 20px;
+}
+
+.game-container {
+  flex-grow: 1;
+}
+
+.click-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  min-height: 600px;
+  min-width: 650px;
 }
