@@ -1,4 +1,4 @@
-const socket = io('http://localhost:8000');
+const socket = io(window.location.origin);
 
 var click = document.getElementById('click');
 var scorebox = document.getElementById('score');
@@ -11,9 +11,10 @@ var achievetotal = document.getElementById('achieve-total');
 var frenzy = document.getElementById('frenzy')
 var lotterystatus = document.getElementById('status');
 var lottery = document.getElementById('lottery');
+var lotterymodal = document.getElementById('lottery-modal');
 var lotteryerror = document.getElementById('lottery-error');
 var lotteryguess = document.getElementById('guess');
-var lotteryclose = document.getElementById('close');
+var lotteryopen = document.getElementById('lottery-open');
 var lotteryupdate = true;
 var score = 0;
 var isfrenzy = false;
@@ -42,7 +43,7 @@ var unlock_template = `
 var upgrade_template = `
   <div class="container">
     <div class="row justify-content-center">
-      <h5>{0} Upgrade</h5>
+      <h5>{0}</h5>
     </div>
     <div class="row justify-content-center">
       <div class="col-sm-auto">
@@ -123,7 +124,7 @@ function createUnlockableTemplate(name, unlockable) {
   var position = name.indexOf('Click')
   fmt_name = [name.slice(0, position), ' ', name.slice(position)].join('');
   var value = unlockable['value'];
-  var price = unlockable['v-price'];
+  var price = unlockable['price'];
   var template = unlock_template.format(fmt_name, value, price);
   var unlock = createTemplate(template)
   unlock.addEventListener('click', function(e){
@@ -139,12 +140,19 @@ function createClickerTemplate(name, clicker) {
   var value = clicker['value'];
   var mult = clicker['mult'];
   var total = value * mult;
+  if (name === 'BaseClick' && isfrenzy){
+    total *= 2
+  }
   var template = click_template.format(fmt_name, value, mult, total);
   clickbox.appendChild(createTemplate(template));
 }
 
 function update() {
   socket.emit('update', function(data) {
+    if (!data) {
+      scorebox.innerHTML = "Connection Invalid";
+      return
+    }
     isfrenzy = data['frenzy']
     if (!data['frenzy_avail']) {
       frenzy.classList.add('disable');
@@ -195,7 +203,8 @@ lottery.addEventListener('click', function(e) {
   if (guess === "") {
     lotteryerror.innerHTML = "Please input a number";
   } else {
-    socket.emit('lottery', guess, function(data){
+    socket.emit('lottery', guess, function(data) {
+
       if (data == null) {
         lotteryerror.innerHTML = "Invalid Input";
       } else {
@@ -213,7 +222,7 @@ lottery.addEventListener('click', function(e) {
   }
 });
 
-lotteryclose.addEventListener('click', function(e) {
+lotteryopen.addEventListener('click', function(e) {
   lotteryguess.style.display = 'block';
   lotteryerror.style.display = 'block';
   lottery.style.display = 'block';
@@ -224,6 +233,9 @@ lotteryclose.addEventListener('click', function(e) {
 
 achievements.addEventListener('click', function(e) {
   socket.emit('achievements', function(data){
+    if (!data) {
+      return
+    }
     achieveclick.innerHTML = data['click']
     achievelottery.innerHTML = data['lottery']
     achievetotal.innerHTML = data['total']
@@ -234,4 +246,16 @@ frenzy.addEventListener('click', function(e) {
   socket.emit('frenzy');
 });
 
-setInterval(update, 1000);
+var updateLoop = setInterval(update, 1000);
+
+
+function test() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/login', true);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.onload = function () {
+      // do something to response
+      console.log(this.responseText);
+  };
+  xhr.send('username=test1&password=password');
+}

@@ -28,14 +28,16 @@ class RedisDB(object):
 
     def _clicker_sync(self, user, name, clicker):
         base_query = 'clicker:' + user + ':' + name + ':'
-        self.rdb.set(base_query + 'value', clicker.get_value())
-        self.rdb.set(base_query + 'mult', clicker.get_mult())
+        self.rdb.set(base_query + 'v_quantity', clicker.get_value_quantity())
+        self.rdb.set(base_query + 'm_quantity', clicker.get_mult_quantity())
 
     def _clicker_load(self, user, name):
         clicker = {}
         base_query = 'clicker:' + user + ':' + name + ':'
-        clicker['value'] = int(self.rdb.get(base_query + 'value'))
-        clicker['mult'] = int(self.rdb.get(base_query + 'mult'))
+        clicker['v_quantity'] = int(float(self.rdb.get(
+            base_query + 'v_quantity')))
+        clicker['m_quantity'] = int(float(self.rdb.get(
+            base_query + 'm_quantity')))
         return clicker
 
     def clickers_sync(self, user, clickers):
@@ -56,3 +58,53 @@ class RedisDB(object):
         for name in names:
             clickers[name] = self._clicker_load(user, name)
         return clickers
+
+    def lottery_sync(self, user, streak):
+        base_query = 'lottery:' + user + ':'
+        self.rdb.set(base_query + 'streak', streak)
+
+    def lottery_load(self, user):
+        base_query = 'lottery:' + user + ':'
+        if self.rdb.exists(base_query + 'streak'):
+            return int(float(self.rdb.get(base_query + 'streak')))
+        return None
+
+    def achievements_sync(self, user, achievements):
+        base_query = 'achievements:' + user + ':'
+        self.rdb.set(base_query + 'click', achievements.get_click())
+        self.rdb.set(base_query + 'lottery', achievements.get_lottery())
+        self.rdb.set(base_query + 'total', achievements.get_total())
+
+    def achievements_load(self, user):
+        achievements = {}
+        base_query = 'achievements:' + user + ':'
+        if not self.rdb.exists(base_query + 'click'):
+            return achievements
+        achievements['click'] = int(float(self.rdb.get(
+            base_query + 'click')))
+        achievements['lottery'] = int(float(self.rdb.get(
+            base_query + 'lottery')))
+        achievements['total'] = int(float(self.rdb.get(
+            base_query + 'total')))
+        return achievements
+
+    def frenzy_sync(self, user, available, cd_time):
+        base_query = 'frenzy:' + user + ':'
+        if available:
+            self.rdb.set(base_query + 'available', 1)
+        else:
+            self.rdb.set(base_query + 'available', 0)
+        self.rdb.set(base_query + 'cd_time', cd_time)
+
+    def frenzy_load(self, user):
+        frenzy = {}
+        base_query = 'frenzy:' + user + ':'
+        if not self.rdb.exists(base_query + 'available'):
+            return frenzy
+        available = int(float(self.rdb.get(base_query + 'available')))
+        if available == 1:
+            frenzy['avail'] = True
+        else:
+            frenzy['avail'] = False
+        frenzy['cd_time'] = int(float(self.rdb.get(base_query + 'cd_time')))
+        return frenzy
